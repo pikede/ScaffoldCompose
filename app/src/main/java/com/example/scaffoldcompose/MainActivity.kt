@@ -16,7 +16,6 @@ import com.example.scaffoldcompose.ui.theme.ScaffoldComposeTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             ScaffoldComposeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
