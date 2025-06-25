@@ -3,7 +3,7 @@ package com.example.scaffoldcompose.item_views
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.scaffoldcompose.domain.ItemRepository
-import com.example.scaffoldcompose.models.ItemsResponse
+import com.example.scaffoldcompose.models.EquitiesItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,8 +19,7 @@ class ItemViewModel @Inject constructor(private val itemRepository: ItemReposito
     private val isLoadingState = MutableStateFlow(default.isLoading)
     private val errorState = MutableStateFlow(default.error)
     private val itemsViewState = MutableStateFlow(default.itemNames)
-    val anotherState = MutableStateFlow("")
-    private val originalItems = getItems()
+    private var originalList = mutableListOf<EquitiesItem>()
 
     val state = combine(
         isLoadingState,
@@ -39,30 +38,19 @@ class ItemViewModel @Inject constructor(private val itemRepository: ItemReposito
 
     private fun getItemNames() = viewModelScope.launch {
         isLoadingState.value = true
-        itemsViewState.value = getItems()
-        // todo get items here from the usecase/repository
-//        runCatching { itemRepository.getItemsResponse() }
-//            .onSuccess { itemsViewState.value = getItems() }
-//            .onFailure { errorState.value = it }
+        runCatching { itemRepository.getItemsResponse() }
+            .onSuccess {
+                originalList = it.sortedBy { it.current_price }.toMutableList()
+                itemsViewState.value = originalList
+            }
+            .onFailure { errorState.value = it }
         isLoadingState.value = false
     }
 
     fun searchFor(string: String) {
-        val filteredItems = originalItems.filter { it.name.contains(string, ignoreCase = true) }
-        itemsViewState.value = if (filteredItems.isNotEmpty()) filteredItems else originalItems
+        val filteredItems =
+            originalList.filter { it.name.contains(string, ignoreCase = true) }
+                .sortedBy { it.current_price }
+        itemsViewState.value = if (filteredItems.isNotEmpty()) filteredItems else originalList
     }
-}
-
-private fun getItems(): List<ItemsResponse> {
-    var id = 1
-    val name = "John"
-    val image = "Image"
-    val item = buildList {
-        repeat(10) {
-            add(ItemsResponse(id.toString(), (name + id).toString(), (image + id).toString()))
-            add(ItemsResponse(id.toString(), (name + id + id).toString(), (image + id).toString()))
-            id++
-        }
-    }
-    return item
 }

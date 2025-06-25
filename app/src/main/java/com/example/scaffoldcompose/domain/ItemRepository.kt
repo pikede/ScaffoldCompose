@@ -1,9 +1,7 @@
 package com.example.scaffoldcompose.domain
 
-import com.example.scaffoldcompose.models.ItemsResponse
-import com.example.scaffoldcompose.models.Locations
+import com.example.scaffoldcompose.models.EquitiesItem
 
 interface ItemRepository {
-    suspend fun getItemsResponse(): List<ItemsResponse>
-    suspend fun getLocations(id: Int): Locations
+    suspend fun getItemsResponse(): List<EquitiesItem>
 }

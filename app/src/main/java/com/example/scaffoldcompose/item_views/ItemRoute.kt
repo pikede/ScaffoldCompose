@@ -1,14 +1,10 @@
 package com.example.scaffoldcompose.item_views
 
-import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -17,16 +13,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
-import coil.compose.ImagePainter
-import coil.compose.rememberImagePainter
-import com.example.scaffoldcompose.models.ItemsResponse
 
 @Composable
 fun ItemNameRoute(
@@ -46,7 +38,6 @@ private fun ItemNames(
     itemViewModel: ItemViewModel = hiltViewModel<ItemViewModel>(),
 ) {
     val state by itemViewModel.state.collectAsStateWithLifecycle()
-    val anotherState by itemViewModel.anotherState.collectAsStateWithLifecycle()
 
     ItemNames(
         state = state,
@@ -76,7 +67,6 @@ private fun ItemNames(
             )
         }
         items(state.itemNames) {
-            val painter = rememberImagePainter(it.image)
             Row(
                 modifier = Modifier
                     .padding(20.dp)
@@ -89,23 +79,6 @@ private fun ItemNames(
                         }*/
                     }) {
                 Text(text = it.name)
-                Image(
-                    painter = painter,
-                    contentDescription = it.name,
-                    modifier = Modifier.size(100.dp)
-                )
-
-      /*          val context = LocalContext.current
-                when (painter.state) {
-                    is ImagePainter.State.Loading -> CircularProgressIndicator()
-                    ImagePainter.State.Empty -> {}
-                    is ImagePainter.State.Error -> Toast.makeText(
-                        context, "Error loading image",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    is ImagePainter.State.Success -> {}
-                }*/
             }
         }
     }
@@ -114,17 +87,13 @@ private fun ItemNames(
 @Preview
 @Composable
 fun CharacterResultsPreview() {
-    ItemNames(
+    /*ItemNames(
         state = ItemsViewState(
             itemNames = listOf(
-                ItemsResponse(
-                    id = "1",
-                    name = "John",
-                    image = "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-                )
+
             )
         ),
         navController = NavController(LocalContext.current),
         searchForText = {}
-    )
+    )*/
 }
