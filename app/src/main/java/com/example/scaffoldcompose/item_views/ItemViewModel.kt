@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.scaffoldcompose.domain.ItemRepository
 import com.example.scaffoldcompose.models.EquitiesItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -52,5 +53,21 @@ class ItemViewModel @Inject constructor(private val itemRepository: ItemReposito
             originalList.filter { it.name.contains(string, ignoreCase = true) }
                 .sortedBy { it.current_price }
         itemsViewState.value = if (filteredItems.isNotEmpty()) filteredItems else originalList
+    }
+
+    fun getMore() = viewModelScope.launch {
+        isLoadingState.value = true
+        delay(2000)
+        itemsViewState.value = buildList {
+            addAll(itemsViewState.value)
+            for (i in 0..20) {
+                originalList.map {
+                    add(it.copy(name = "${it.name} ${i + 1}"))
+                }
+            }
+            val lastItem = originalList.last().copy(name = "last item++")
+            add(lastItem)
+        }
+        isLoadingState.value = false
     }
 }

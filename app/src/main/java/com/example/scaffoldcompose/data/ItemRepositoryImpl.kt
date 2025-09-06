@@ -3,7 +3,6 @@ package com.example.scaffoldcompose.data
 import android.util.Log
 import com.example.scaffoldcompose.domain.ItemRepository
 import com.example.scaffoldcompose.models.EquitiesItem
-import com.example.scaffoldcompose.models.Locations
 import com.example.scaffoldcompose.network.ItemService
 import javax.inject.Inject
 

@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.scaffoldcompose.item_views.ItemNameRoute
 import com.example.scaffoldcompose.location.LocationsRoute
 import com.example.scaffoldcompose.ui.theme.ScaffoldComposeTheme
@@ -68,7 +69,7 @@ fun EmptyApp(
             * This is an example of how to retrieve data from navBackStackEntry in a type safe way, and pass values to the composable.
             * other way is in the viewmodel using savedStateHandle (which is currently used for the app).
             * */
-//            val locationId = navBackStackEntry.toRoute<DestinationRoutes.Locations>().locationId
+            val locationId = navBackStackEntry.toRoute<DestinationRoutes.Locations>().locationId
             LocationsRoute(
                 navController = navController,
                 modifier = modifier
