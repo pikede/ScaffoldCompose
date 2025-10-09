@@ -15,3 +15,10 @@ data class LocationsViewState(
     }
 
 }
+
+
+@Immutable
+data class Clock(val name: String, val time: Long, val isRunning: Boolean)
+
+
+// 9:12

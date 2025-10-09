@@ -62,7 +62,7 @@ fun ScaffoldApp(
 ) {
     NavHost(
         navController = navController,
-        startDestination = DestinationRoutes.ItemNames
+        startDestination = DestinationRoutes.Locations(9)
     ) {
         composable<DestinationRoutes.ItemNames> {
             ItemNameRoute(navController = navController, modifier = modifier)
